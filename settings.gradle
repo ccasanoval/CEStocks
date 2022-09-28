@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CEStocks"
 include ':app'
+include ':domain'
+include ':data'
