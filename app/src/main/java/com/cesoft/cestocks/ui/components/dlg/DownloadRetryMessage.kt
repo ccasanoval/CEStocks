@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 fun DownloadRetryMessage(onRetry: (() -> Unit)? = null, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         ErrorMessage(
-            message = "Download Failed",
+            message = "Load failed",
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.CenterHorizontally)

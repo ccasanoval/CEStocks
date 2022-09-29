@@ -23,7 +23,11 @@ import androidx.navigation.compose.rememberNavController
 import com.cesoft.cestocks.ui.components.pages.init.InitPage
 import com.cesoft.cestocks.ui.components.pages.init.InitSideEffect
 import com.cesoft.cestocks.ui.components.pages.init.InitViewModel
+import com.cesoft.cestocks.ui.components.pages.stockdetail.StockDetailPage
+import com.cesoft.cestocks.ui.components.pages.stockdetail.StockDetailSideEffect
+import com.cesoft.cestocks.ui.components.pages.stockdetail.StockDetailViewModel
 import com.cesoft.cestocks.ui.components.pages.stocklist.StockListPage
+import com.cesoft.cestocks.ui.components.pages.stocklist.StockListSideEffect
 import com.cesoft.cestocks.ui.components.pages.stocklist.StockListViewModel
 import com.cesoft.cestocks.ui.nav.Screen
 import com.cesoft.cestocks.ui.theme.CEStocksTheme
@@ -45,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController, startDestination = Screen.Init.route) {
                         addInit(navController = navController)
                         addStockList(navController = navController)
-                        //addStockDetail(navController = navController)
+                        addStockDetail(navController = navController)
                     }
                 }
             }
@@ -96,23 +100,23 @@ private fun NavGraphBuilder.addStockList(navController: NavController) {
     composable(route = Screen.StockList.route) {
         val viewModel = getComposeViewModel<StockListViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
-//
-//        LaunchedEffect(viewModel) {
-//            viewModel.container.sideEffectFlow.collect { effect ->
-//                when(effect) {
-//                    is StockListSideEffect.ShowDetails -> {
-//                        navController.navigate(route = Screen.StockDetail.createRoute(effect.id))
-//                    }
-//                }
-//            }
-//        }
+
+        LaunchedEffect(viewModel) {
+            viewModel.container.sideEffectFlow.collect { effect ->
+                when(effect) {
+                    is StockListSideEffect.ShowDetails -> {
+                        navController.navigate(route = Screen.StockDetail.createRoute(effect.id))
+                    }
+                }
+            }
+        }
 
         StockListPage(
             state = state
         )
     }
 }
-/*
+
 private fun NavGraphBuilder.addStockDetail(navController: NavController) {
     composable(route = Screen.StockDetail.route) {
         val viewModel = getComposeViewModel<StockDetailViewModel>(
@@ -134,4 +138,4 @@ private fun NavGraphBuilder.addStockDetail(navController: NavController) {
             onBack = { navController.popBackStack() }
         )
     }
-}*/
+}

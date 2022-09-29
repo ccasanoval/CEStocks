@@ -4,4 +4,6 @@
     <string name="search">Search</string>
     <string name="retry">Retry</string>
 
+    <string name="loading">Loading…</string>
+
 </resources>

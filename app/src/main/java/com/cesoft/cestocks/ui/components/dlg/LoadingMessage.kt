@@ -23,5 +23,5 @@ fun LoadingMessage(message: String, modifier: Modifier = Modifier) {
 @Preview(group="Test")
 @Composable
 private fun LoadingMessage_Preview() {
-    LoadingMessage("Download Pokemon Data...")
+    LoadingMessage("Loading data...")
 }

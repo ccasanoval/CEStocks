@@ -5,9 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun StockListPage(
-    state: StockListState,
-) {
+fun StockListPage(state: StockListState) {
     Column {
         state.stockList.forEach {
             Text(text = it.name)
