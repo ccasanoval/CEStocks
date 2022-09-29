@@ -25,7 +25,6 @@ fun InitPage(
         ) {
             when(state.status) {
                 UiStatus.Loading -> {
-android.util.Log.e("AA", "-------- LOADING")
                     DownloadingMessage(
                         modifier = Modifier
                             .wrapContentSize()
@@ -41,7 +40,6 @@ android.util.Log.e("AA", "-------- LOADING")
                     )
                 }
                 UiStatus.Success -> {
-                    android.util.Log.e("AA", "-------- OK")
                     Unit
                 }
                 null -> Unit

@@ -105,14 +105,17 @@ private fun NavGraphBuilder.addStockList(navController: NavController) {
             viewModel.container.sideEffectFlow.collect { effect ->
                 when(effect) {
                     is StockListSideEffect.ShowDetails -> {
-                        navController.navigate(route = Screen.StockDetail.createRoute(effect.id))
+                        navController.navigate(
+                            route = Screen.StockDetail.createRoute(effect.stock.id)
+                        )
                     }
                 }
             }
         }
 
         StockListPage(
-            state = state
+            state = state,
+            onStockClick = { viewModel.onStockClick(it) }
         )
     }
 }
@@ -133,6 +136,7 @@ private fun NavGraphBuilder.addStockDetail(navController: NavController) {
                 }
             }
         }
+
         StockDetailPage(
             state = state,
             onBack = { navController.popBackStack() }

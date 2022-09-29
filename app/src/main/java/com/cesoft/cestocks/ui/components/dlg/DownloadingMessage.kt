@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.cesoft.cestocks.R
 
 @Composable
-fun DownloadingMessage(modifier: Modifier = Modifier) {
+fun DownloadingMessage(modifier: Modifier = Modifier) {//TODO: Rename
     Column(modifier = modifier) {
         LoadingIndicator(
             modifier = Modifier
