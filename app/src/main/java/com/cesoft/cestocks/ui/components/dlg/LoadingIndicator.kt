@@ -6,17 +6,21 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun LoadingIndicator(modifier: Modifier = Modifier) {
+fun LoadingIndicator(color: Color, modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        CircularProgressIndicator(
+            color = color,
+            modifier = Modifier.align(Alignment.Center)
+        )
     }
 }
 
 @Preview(group="Test")
 @Composable
 fun LoadingIndicator_Preview() {
-    LoadingIndicator(modifier = Modifier.fillMaxSize())
+    LoadingIndicator(color = Color.White, modifier = Modifier.fillMaxSize())
 }

@@ -1,6 +1,7 @@
 package com.cesoft.cestocks.ui.components.pages.stockdetail
 
 import androidx.lifecycle.ViewModel
+import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.usecases.GetStockHistoryUseCase
 import com.cesoft.cestocks.domain.usecases.GetUserStockListUseCase
 import com.cesoft.cestocks.ui.common.UiStatus
@@ -10,6 +11,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class StockDetailViewModel(
+    private val id: Int,
     private val getStockHistoryUseCase: GetStockHistoryUseCase
 ) : ContainerHost<StockDetailState, StockDetailSideEffect>, ViewModel() {
     override val container = container<StockDetailState, StockDetailSideEffect>(
@@ -29,13 +31,13 @@ class StockDetailViewModel(
     private fun fetchData() {
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
-//            val data = getStockHistoryUseCase(stock)
-//            if (data.isNotEmpty()) {
-//                reduce { state.copy(status = UiStatus.Success, stockList = data) }
-//                //postSideEffect(InitSideEffect.Completed)
-//            } else {
-//                reduce { state.copy(status = UiStatus.Failed(), stockList = listOf()) }
-//            }
+            val data = getStockHistoryUseCase(id=id)
+            if (data != null) {
+                reduce { state.copy(status = UiStatus.Success, stockHistory = data) }
+                //postSideEffect(InitSideEffect.Completed)
+            } else {
+                reduce { state.copy(status = UiStatus.Failed(), stockHistory = null) }
+            }
         }
     }
 }

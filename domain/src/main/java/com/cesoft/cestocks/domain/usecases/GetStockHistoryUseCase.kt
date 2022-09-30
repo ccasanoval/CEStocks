@@ -1,5 +1,6 @@
 package com.cesoft.cestocks.domain.usecases
 
+import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.entities.StockHistory
 import java.math.BigDecimal
@@ -9,7 +10,7 @@ class GetStockHistoryUseCase(
     //private val pokemonRepository: StockRepository,
     //private val configRepository: ConfigRepository
 ) {
-    suspend operator fun invoke(stock: Stock): StockHistory {
+    suspend operator fun invoke(id: Int): StockHistory? {
         val now = Date()
         val aDay = 24*60*60*1000
 
@@ -20,6 +21,8 @@ class GetStockHistoryUseCase(
             prices.add(Math.random().toBigDecimal())
         }
 
+        val market = Market(id=0,name="Market", ticket="Ticker", currency="€")
+        val stock = Stock(id=id, name="Name", ticker="Ticker", market=market)
         return StockHistory(
             stock = stock,
             dates = dates,

@@ -73,7 +73,7 @@ inline fun <reified T : ViewModel> getComposeViewModel(
     val viewModelOwner = getComposeViewModelOwner()
     return KoinJavaComponent.getKoin().getViewModel(qualifier, { viewModelOwner }, parameters)
 }
-
+// TODO: Splash
 private fun NavGraphBuilder.addInit(navController: NavController) {
     composable(route = Screen.Init.route) {
         val viewModel = getComposeViewModel<InitViewModel>()
@@ -83,7 +83,11 @@ private fun NavGraphBuilder.addInit(navController: NavController) {
             viewModel.container.sideEffectFlow.collect {
                 when(it) {
                     is InitSideEffect.Completed -> {
-                        navController.navigate(route = Screen.StockList.route)
+                        navController.navigate(route = Screen.StockList.route) {
+                            popUpTo(Screen.Init.route) {
+                                inclusive = true
+                            }
+                        }
                     }
                 }
             }
