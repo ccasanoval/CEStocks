@@ -1,16 +1,20 @@
 package com.cesoft.cestocks.domain.usecases
 
+import com.cesoft.cestocks.domain.RepositoryContract
 import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.entities.StockHistory
+import kotlinx.coroutines.delay
 import java.math.BigDecimal
 import java.util.*
 
 class GetStockHistoryUseCase(
-    //private val pokemonRepository: StockRepository,
-    //private val configRepository: ConfigRepository
+    private val repository: RepositoryContract
 ) {
     suspend operator fun invoke(id: Int): StockHistory? {
+
+        delay(1000)
+
         val now = Date()
         val aDay = 24*60*60*1000
 
@@ -21,7 +25,7 @@ class GetStockHistoryUseCase(
             prices.add(Math.random().toBigDecimal())
         }
 
-        val market = Market(id=0,name="Market", ticket="Ticker", currency="€")
+        val market = Market(id=0,name="Market", ticker="Ticker", currency="€")
         val stock = Stock(id=id, name="Name", ticker="Ticker", market=market)
         return StockHistory(
             stock = stock,

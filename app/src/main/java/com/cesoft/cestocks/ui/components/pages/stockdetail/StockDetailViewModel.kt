@@ -1,9 +1,7 @@
 package com.cesoft.cestocks.ui.components.pages.stockdetail
 
 import androidx.lifecycle.ViewModel
-import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.usecases.GetStockHistoryUseCase
-import com.cesoft.cestocks.domain.usecases.GetUserStockListUseCase
 import com.cesoft.cestocks.ui.common.UiStatus
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent

@@ -2,13 +2,17 @@ package com.cesoft.cestocks.domain
 
 import com.cesoft.cestocks.domain.usecases.GetStockHistoryUseCase
 import com.cesoft.cestocks.domain.usecases.GetUserStockListUseCase
+import com.cesoft.cestocks.domain.usecases.SearchUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
     factory {
-        GetUserStockListUseCase()
+        GetUserStockListUseCase(get())
     }
     factory {
-        GetStockHistoryUseCase()
+        GetStockHistoryUseCase(get())
+    }
+    factory {
+        SearchUseCase(get())
     }
 }

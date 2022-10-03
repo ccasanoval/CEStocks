@@ -30,7 +30,6 @@ class InitViewModel(
             reduce { state.copy(status = UiStatus.Loading) }
             //TODO: Other config loading?
             if(getUserStockListUseCase().isNotEmpty()) {
-                delay(2000)
                 reduce { state.copy(status = UiStatus.Success) }
                 postSideEffect(InitSideEffect.Completed)
             } else {

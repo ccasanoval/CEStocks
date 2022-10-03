@@ -1,11 +1,11 @@
 package com.cesoft.cestocks.domain.usecases
 
+import com.cesoft.cestocks.domain.RepositoryContract
 import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
 
 class GetUserStockListUseCase(
-    //private val stockRepository: StockRepository,
-    //private val configRepository: ConfigRepository
+    private val repository: RepositoryContract
 ) {
     suspend operator fun invoke(): List<Stock> {
         val mc = Market(0, "MC", "BME", "€")

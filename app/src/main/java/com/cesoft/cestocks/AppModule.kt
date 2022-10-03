@@ -11,7 +11,7 @@ val appModule = module {
         InitViewModel(get())
     }
     viewModel {
-        StockListViewModel(get())
+        StockListViewModel(get(), get())
     }
     viewModel {
         StockDetailViewModel(get(), get())
