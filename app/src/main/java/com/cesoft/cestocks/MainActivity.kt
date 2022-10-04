@@ -171,7 +171,9 @@ private fun NavGraphBuilder.addAddStock(navController: NavController) {
         }
 
         AddStockPage(
-            state = state
+            state = state,
+            onSearch = viewModel::onSearch
+            //onSearch = { value, market -> viewModel.onSearch(value, market) }
         )
     }
 }

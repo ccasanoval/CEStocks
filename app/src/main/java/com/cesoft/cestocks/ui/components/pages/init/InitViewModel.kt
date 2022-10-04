@@ -28,13 +28,14 @@ class InitViewModel(
     private fun fetchData() {
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
-            //TODO: Other config loading?
-            if(getUserStockListUseCase().isNotEmpty()) {
-                reduce { state.copy(status = UiStatus.Success) }
-                postSideEffect(InitSideEffect.Completed)
-            } else {
-                reduce { state.copy(status = UiStatus.Failed()) }
-            }
+            delay(1500)
+            postSideEffect(InitSideEffect.Completed)
+//            if(getUserStockListUseCase().isNotEmpty()) {
+//                reduce { state.copy(status = UiStatus.Success) }
+//                postSideEffect(InitSideEffect.Completed)
+//            } else {
+//                reduce { state.copy(status = UiStatus.Failed()) }
+//            }
         }
     }
 }

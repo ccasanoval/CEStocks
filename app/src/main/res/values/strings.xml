@@ -10,4 +10,23 @@
     <string name="stock_detail_page">Quote values</string>
     <string name="add_stock_page">Add quotes</string>
 
+    <string name="market">Market: </string>
+
+    <array name="market_types">
+        <item>ETF</item>
+        <item>MUTUAL_FUND</item>
+        <item>COMMODITY</item>
+        <item>INDEX</item>
+        <item>CRYPTO</item>
+        <item>FOREX</item>
+        <item>TSX</item>
+        <item>AMEX</item>
+        <item>NASDAQ</item>
+        <item>NYSE</item>
+        <item>EURONEXT</item>
+        <item>XETRA</item>
+        <item>NSE</item>
+        <item>LSE</item>
+    </array>
+
 </resources>

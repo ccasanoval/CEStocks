@@ -24,26 +24,31 @@ fun InitPage(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            when(state.status) {
-                UiStatus.Loading -> {
-                    DownloadingMessage(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.Center)
-                    )
-                }
-                is UiStatus.Failed -> {
-                    DownloadRetryMessage(
-                        onRetry = { onRetry() },
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.Center)
-                    )
-                }
-                UiStatus.Success -> {
-                }
-                null -> Unit
-            }
+            DownloadingMessage(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .align(Alignment.Center)
+            )
+//            when(state.status) {
+//                UiStatus.Loading -> {
+//                    DownloadingMessage(
+//                        modifier = Modifier
+//                            .wrapContentSize()
+//                            .align(Alignment.Center)
+//                    )
+//                }
+//                is UiStatus.Failed -> {
+//                    DownloadRetryMessage(
+//                        onRetry = { onRetry() },
+//                        modifier = Modifier
+//                            .wrapContentSize()
+//                            .align(Alignment.Center)
+//                    )
+//                }
+//                UiStatus.Success -> {
+//                }
+//                null -> Unit
+//            }
         }
     }
 }

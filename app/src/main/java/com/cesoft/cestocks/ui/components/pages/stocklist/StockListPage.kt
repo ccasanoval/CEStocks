@@ -4,11 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -17,7 +18,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,7 +39,7 @@ fun StockListPage(
     onAddStock: () -> Unit
 ) {
     Window(onAddStock = onAddStock) {
-        when (state.status) {
+        when(state.status) {
             UiStatus.Loading -> {
                 LoadingCompo()
             }
@@ -60,27 +60,25 @@ fun Window(
     content: @Composable (padding: PaddingValues) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxWidth(),
         topBar = {
-            TopAppBar(modifier = Modifier.fillMaxWidth()) {
-                val image: Painter = painterResource(id = R.drawable.ic_launcher_foreground)
+            TopAppBar {
+                val image: Painter = painterResource(R.drawable.ic_launcher_foreground)
                 Icon(image, "")
-
                 Text(
                     text = stringResource(id = R.string.stock_list_page),
-                    fontSize = 22.sp
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                    fontSize = 24.sp
                 )
-
                 Spacer(modifier = Modifier.weight(1f))
 
                 IconButton(
-                    modifier = Modifier.then(Modifier.size(32.dp)),
+                    modifier = Modifier.size(64.dp).padding(end = 8.dp),
                     onClick = onAddStock
                 ) {
                     Icon(
                         Icons.Default.Add,
                         stringResource(R.string.add_stock),
-                        tint = Color.White
+                        tint = MaterialTheme.colors.secondary
                     )
                 }
             }
@@ -105,27 +103,23 @@ fun SuccessCompo(
     state: StockListState,
     onStockClick: (Stock) -> Unit
 ) {
-    Scaffold { contentPadding ->
-        Box(modifier = Modifier.padding(contentPadding)) {
-            Column {
-                state.stockList.forEach { stock ->
-                    Column(
-                        modifier = Modifier
-                            .padding(6.dp)
-                            .clickable { onStockClick(stock) }
-                    ) {
-                        Text(
-                            text = stock.fullTicket(),
-                            fontSize = 20.sp
-                        )
-                        Text(
-                            text = stock.name,
-                            fontSize = 12.sp
-                        )
-                    }
-                    //TODO: Add current price and change from open
-                }
+    Column(modifier = Modifier.padding(16.dp)) {
+        state.stockList.forEach { stock ->
+            Column(
+                modifier = Modifier
+                    .padding(6.dp)
+                    .clickable { onStockClick(stock) }
+            ) {
+                Text(
+                    text = stock.fullTicket(),
+                    fontSize = 20.sp
+                )
+                Text(
+                    text = stock.name,
+                    fontSize = 12.sp
+                )
             }
+            //TODO: Add current price and change value from open
         }
     }
 }
