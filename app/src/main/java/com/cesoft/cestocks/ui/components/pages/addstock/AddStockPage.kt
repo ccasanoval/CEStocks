@@ -1,10 +1,11 @@
-package com.cesoft.cestocks.ui.components.pages.init
+package com.cesoft.cestocks.ui.components.pages.addstock
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,9 +15,8 @@ import com.cesoft.cestocks.ui.components.dlg.DownloadRetryMessage
 import com.cesoft.cestocks.ui.components.dlg.DownloadingMessage
 
 @Composable
-fun InitPage(
-    state: InitState,
-    onRetry: () -> Unit
+fun AddStockPage(
+    state: AddStockState
 ) {
     Scaffold {
         Box(
@@ -34,13 +34,14 @@ fun InitPage(
                 }
                 is UiStatus.Failed -> {
                     DownloadRetryMessage(
-                        onRetry = { onRetry() },
+                        onRetry = { },
                         modifier = Modifier
                             .wrapContentSize()
                             .align(Alignment.Center)
                     )
                 }
                 UiStatus.Success -> {
+                    Text("Add new Quote")
                 }
                 null -> Unit
             }
@@ -51,5 +52,5 @@ fun InitPage(
 @Preview(group = "Test")
 @Composable
 private fun InitPage_Preview() {
-    InitPage(InitState(UiStatus.Success)) {}
+    AddStockPage(AddStockState(UiStatus.Success))
 }

@@ -2,8 +2,12 @@
     <string name="app_name">CEStocks</string>
 
     <string name="search">Search</string>
+    <string name="add_stock">Add quote</string>
     <string name="retry">Retry</string>
-
     <string name="loading">Loading…</string>
+
+    <string name="stock_list_page">Quotes</string>
+    <string name="stock_detail_page">Quote values</string>
+    <string name="add_stock_page">Add quotes</string>
 
 </resources>

@@ -3,14 +3,28 @@ package com.cesoft.cestocks.ui.components.pages.stocklist
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cesoft.cestocks.R
 import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.ui.common.UiStatus
@@ -21,19 +35,58 @@ import com.cesoft.cestocks.ui.components.dlg.ErrorMessage
 @Composable
 fun StockListPage(
     state: StockListState,
-    onStockClick: (Stock) -> Unit
+    onStockClick: (Stock) -> Unit,
+    onAddStock: () -> Unit
 ) {
-    when(state.status) {
-        UiStatus.Loading -> {
-            LoadingCompo()
+    Window(onAddStock = onAddStock) {
+        when (state.status) {
+            UiStatus.Loading -> {
+                LoadingCompo()
+            }
+            is UiStatus.Failed -> {
+                FailedCompo(state.status.message)
+            }
+            UiStatus.Success -> {
+                SuccessCompo(state, onStockClick)
+            }
+            else -> {}
         }
-        is UiStatus.Failed -> {
-            FailedCompo(state.status.message)
+    }
+}
+
+@Composable
+fun Window(
+    onAddStock: (() -> Unit),
+    content: @Composable (padding: PaddingValues) -> Unit
+) {
+    Scaffold(
+        modifier = Modifier.fillMaxWidth(),
+        topBar = {
+            TopAppBar(modifier = Modifier.fillMaxWidth()) {
+                val image: Painter = painterResource(id = R.drawable.ic_launcher_foreground)
+                Icon(image, "")
+
+                Text(
+                    text = stringResource(id = R.string.stock_list_page),
+                    fontSize = 22.sp
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                IconButton(
+                    modifier = Modifier.then(Modifier.size(32.dp)),
+                    onClick = onAddStock
+                ) {
+                    Icon(
+                        Icons.Default.Add,
+                        stringResource(R.string.add_stock),
+                        tint = Color.White
+                    )
+                }
+            }
         }
-        UiStatus.Success -> {
-            SuccessCompo(state, onStockClick)
-        }
-        else -> {}
+    ) { padding ->
+        content(padding)
     }
 }
 
@@ -87,5 +140,5 @@ private fun StockListPage_Preview() {
         Stock(0, "Valor A", "TCKA", Market(0, "MarketZ", "MKZ", "€"))
     )
     val state = StockListState(status = UiStatus.Success, stockList = stockList)
-    StockListPage(state) {}
+    StockListPage(state, {}, {})
 }

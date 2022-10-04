@@ -20,6 +20,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.cesoft.cestocks.ui.components.pages.addstock.AddStockPage
+import com.cesoft.cestocks.ui.components.pages.addstock.AddStockViewModel
 import com.cesoft.cestocks.ui.components.pages.init.InitPage
 import com.cesoft.cestocks.ui.components.pages.init.InitSideEffect
 import com.cesoft.cestocks.ui.components.pages.init.InitViewModel
@@ -46,10 +48,11 @@ class MainActivity : ComponentActivity() {
                 window.statusBarColor = MaterialTheme.colorScheme.primary.toArgb()
                 Box(modifier = Modifier.fillMaxSize()) {
                     val navController = rememberNavController()
-                    NavHost(navController, startDestination = Screen.Init.route) {
+                    NavHost(navController = navController, startDestination = Screen.Init.route) {
                         addInit(navController = navController)
                         addStockList(navController = navController)
                         addStockDetail(navController = navController)
+                        addAddStock(navController = navController)
                     }
                 }
             }
@@ -113,13 +116,19 @@ private fun NavGraphBuilder.addStockList(navController: NavController) {
                             route = Screen.StockDetail.createRoute(effect.stock.id)
                         )
                     }
+                    StockListSideEffect.AddStock -> {
+                        navController.navigate(
+                            route = Screen.AddStock.route
+                        )
+                    }
                 }
             }
         }
 
         StockListPage(
             state = state,
-            onStockClick = { viewModel.onStockClick(it) }
+            onStockClick = { viewModel.onStockClick(it) },
+            onAddStock = { viewModel.onAddStock() }
         )
     }
 }
@@ -147,3 +156,23 @@ private fun NavGraphBuilder.addStockDetail(navController: NavController) {
         )
     }
 }
+
+private fun NavGraphBuilder.addAddStock(navController: NavController) {
+    composable(route = Screen.AddStock.route) {
+        val viewModel = getComposeViewModel<AddStockViewModel>()
+        val state by viewModel.container.stateFlow.collectAsState()
+
+        LaunchedEffect(viewModel) {
+            viewModel.container.sideEffectFlow.collect { effect ->
+//                when(effect) {
+//
+//                }
+            }
+        }
+
+        AddStockPage(
+            state = state
+        )
+    }
+}
+

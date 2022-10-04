@@ -1,5 +1,6 @@
 package com.cesoft.cestocks
 
+import com.cesoft.cestocks.ui.components.pages.addstock.AddStockViewModel
 import com.cesoft.cestocks.ui.components.pages.init.InitViewModel
 import com.cesoft.cestocks.ui.components.pages.stockdetail.StockDetailViewModel
 import com.cesoft.cestocks.ui.components.pages.stocklist.StockListViewModel
@@ -15,5 +16,8 @@ val appModule = module {
     }
     viewModel {
         StockDetailViewModel(get(), get())
+    }
+    viewModel {
+        AddStockViewModel(get())
     }
 }

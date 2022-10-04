@@ -35,6 +35,12 @@ class StockListViewModel(
         }
     }
 
+    fun onAddStock() {
+        intent {
+            postSideEffect(StockListSideEffect.AddStock)
+        }
+    }
+
     private fun fetchData() {
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
