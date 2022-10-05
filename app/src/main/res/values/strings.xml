@@ -6,6 +6,7 @@
     <string name="refresh">Refresh</string>
     <string name="retry">Retry</string>
     <string name="loading">Loading…</string>
+    <string name="back">Back</string>
 
     <string name="stock_list_page">Quotes</string>
     <string name="stock_detail_page">Quote values</string>

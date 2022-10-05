@@ -16,7 +16,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -42,6 +44,13 @@ fun StockListPage(
 ) {
     OnLifecycleEvent { _, event ->
         if(event == Lifecycle.Event.ON_START) onRefresh()
+    }
+    DisposableEffect(null) {
+        onRefresh()
+        android.util.Log.e("AA", "--------- onStart")
+        onDispose {
+            android.util.Log.e("AA", "--------- onDispose")
+        }
     }
 
     Window(onAddStock=onAddStock, onRefresh=onRefresh) {
@@ -69,8 +78,8 @@ fun Window(
     Scaffold(
         topBar = {
             TopAppBar {
-                val image: Painter = painterResource(R.drawable.ic_launcher_foreground)
-                Icon(image, "")
+                val image: Painter = painterResource(R.mipmap.ic_launcher)
+                Icon(image, "", tint= Color.Unspecified)
                 Text(
                     text = stringResource(id = R.string.stock_list_page),
                     modifier = Modifier.padding(start = 8.dp, end = 8.dp),

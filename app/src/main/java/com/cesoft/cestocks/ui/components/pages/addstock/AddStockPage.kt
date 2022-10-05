@@ -24,6 +24,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -31,8 +32,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,9 +49,10 @@ import com.cesoft.cestocks.ui.components.dlg.LoadingIndicator
 fun AddStockPage(
     state: AddStockState,
     onSearch: (String, String) -> Unit,
-    onAddStock: (Stock) -> Unit
+    onAddStock: (Stock) -> Unit,
+    onBack: () -> Unit,
 ) {
-    Window(onSearch) {
+    Window(onSearch, onBack) {
         when(state.status) {
             UiStatus.Loading -> {
                 LoadingIndicator(
@@ -77,7 +77,8 @@ fun AddStockPage(
 //TODO: Abstract this......
 @Composable
 fun Window(
-    onSearch: ((String, String) -> Unit),
+    onSearch: (String, String) -> Unit,
+    onBack: () -> Unit,
     content: @Composable (padding: PaddingValues) -> Unit
 ) {
     val searchText = remember { mutableStateOf("") }
@@ -85,8 +86,14 @@ fun Window(
     Scaffold(
          topBar = {
             TopAppBar {
-                val image: Painter = painterResource(id = R.drawable.ic_launcher_foreground)
-                Icon(image, "")
+                //Icon(painterResource(R.mipmap.ic_launcher), "", tint= Color.Unspecified)
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back),
+                        tint = MaterialTheme.colors.secondary
+                    )
+                }
                 Text(
                     text = stringResource(id = R.string.add_stock_page),
                     fontSize = 24.sp
@@ -201,5 +208,5 @@ private fun InitPage_Preview() {
     val stock2 = Stock(id=2,name="BBVA", ticker="BBVA", market=market)
     val data = listOf(stock1, stock2)
     val state = AddStockState(status = UiStatus.Success, data = data)
-    AddStockPage(state, { _,_ -> }, {})
+    AddStockPage(state, { _,_ -> }, {}, {})
 }

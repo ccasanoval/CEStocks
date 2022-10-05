@@ -175,7 +175,8 @@ private fun NavGraphBuilder.addStockScreen(navController: NavController) {
         AddStockPage(
             state = state,
             onSearch = viewModel::onSearch,
-            onAddStock = viewModel::onAddStock
+            onAddStock = viewModel::onAddStock,
+            onBack = { navController.popBackStack() }
         )
     }
 }
