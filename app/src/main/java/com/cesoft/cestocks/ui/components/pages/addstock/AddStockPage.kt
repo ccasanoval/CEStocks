@@ -22,6 +22,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cesoft.cestocks.R
+import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.ui.common.UiStatus
 import com.cesoft.cestocks.ui.common.fullTicket
@@ -46,7 +48,8 @@ import com.cesoft.cestocks.ui.components.dlg.DownloadingMessage
 @Composable
 fun AddStockPage(
     state: AddStockState,
-    onSearch: (String, String) -> Unit
+    onSearch: (String, String) -> Unit,
+    onAddStock: (Stock) -> Unit
 ) {
     Window(onSearch) {
         when(state.status) {
@@ -62,7 +65,7 @@ fun AddStockPage(
                 )
             }
             UiStatus.Success -> {
-                SuccessCompo(state.data!!)
+                SuccessCompo(state.data!!, onAddStock)
             }
             null -> Unit
         }
@@ -133,7 +136,7 @@ fun Dropdown(onSelected: (String) -> Unit) {
             text = stringResource(R.string.market),
             fontSize = 22.sp,
             modifier = Modifier.padding(4.dp))
-        Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
+        Box(modifier = Modifier.padding(4.dp)) {
             Text(
                 text = items[selectedIndex.value],
                 modifier = Modifier
@@ -161,13 +164,28 @@ fun Dropdown(onSelected: (String) -> Unit) {
 }
 
 @Composable
-fun SuccessCompo(data: List<Stock>) {
-    Column {
+fun SuccessCompo(data: List<Stock>, onAddStock: (Stock) -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         data.forEach { stock ->
             Row {
-                Text(text = stock.fullTicket())
+                IconButton(
+                    onClick = { onAddStock(stock) },
+                    modifier=Modifier.align(Alignment.Top)
+                ) {
+                    Icon(
+                        Icons.Default.Add,
+                        stringResource(R.string.add_stock),
+                        tint = MaterialTheme.colors.primary,
+                        modifier=Modifier.align(Alignment.Top)
+                    )
+                }
+                Text(
+                    text = stock.fullTicket(),
+                    modifier=Modifier.align(Alignment.CenterVertically))
                 Spacer(modifier = Modifier.width(24.dp))
-                Text(text = stock.name)
+                Text(
+                    text = stock.name,
+                    modifier=Modifier.align(Alignment.CenterVertically))
             }
         }
     }
@@ -176,5 +194,10 @@ fun SuccessCompo(data: List<Stock>) {
 @Preview(group = "Test")
 @Composable
 private fun InitPage_Preview() {
-    AddStockPage(AddStockState(UiStatus.Success)) { _,_ -> }
+    val market = Market(id=2, name="Bolsa de Madrid", ticker="MC", currency="€")
+    val stock1 = Stock(id=1,name="Santander", ticker="SAN", market=market)
+    val stock2 = Stock(id=2,name="BBVA", ticker="BBVA", market=market)
+    val data = listOf(stock1, stock2)
+    val state = AddStockState(status = UiStatus.Success, data = data)
+    AddStockPage(state, { _,_ -> }, {})
 }

@@ -8,11 +8,12 @@ class GetUserStockListUseCase(
     private val repository: RepositoryContract
 ) {
     suspend operator fun invoke(): List<Stock> {
-        val mc = Market(0, "MC", "BME", "€")
-        return listOf(
-            Stock(0, "Santander", "SAN", mc),
-            Stock(1, "Sacyr", "SCYR", mc),
-            Stock(2, "OHLA", "OHLA", mc)
-        )
+//        val mc = Market(0, "MC", "BME", "€")
+//        return listOf(
+//            Stock(0, "Santander", "SAN", mc),
+//            Stock(1, "Sacyr", "SCYR", mc),
+//            Stock(2, "OHLA", "OHLA", mc)
+//        )
+        return repository.getUserStocks()
     }
 }

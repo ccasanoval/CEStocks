@@ -9,7 +9,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class StockDetailViewModel(
-    private val id: Int,
+    private val id: Long,
     private val getStockHistoryUseCase: GetStockHistoryUseCase
 ) : ContainerHost<StockDetailState, StockDetailSideEffect>, ViewModel() {
     override val container = container<StockDetailState, StockDetailSideEffect>(

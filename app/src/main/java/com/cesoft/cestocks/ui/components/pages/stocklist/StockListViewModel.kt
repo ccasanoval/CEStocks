@@ -3,7 +3,6 @@ package com.cesoft.cestocks.ui.components.pages.stocklist
 import androidx.lifecycle.ViewModel
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.usecases.GetUserStockListUseCase
-import com.cesoft.cestocks.domain.usecases.SearchUseCase
 import com.cesoft.cestocks.ui.common.UiStatus
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -12,19 +11,14 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class StockListViewModel(
-    private val getUserStockListUseCase: GetUserStockListUseCase,
-    private val searchUseCase: SearchUseCase
+    private val getUserStockListUseCase: GetUserStockListUseCase
 ) : ContainerHost<StockListState, StockListSideEffect>, ViewModel() {
     override val container = container<StockListState, StockListSideEffect>(
         StockListState()
     )
 
-    init {
-        fetchData()
-    }
-
-    fun retry() {
-        if (container.stateFlow.value.status != UiStatus.Loading) {
+    fun refresh() {
+        if(container.stateFlow.value.status != UiStatus.Loading) {
             fetchData()
         }
     }
@@ -45,11 +39,8 @@ class StockListViewModel(
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
             val data = getUserStockListUseCase()
-
-            val searchData = searchUseCase("Santander", "EURONEXT")
-
             if (data.isNotEmpty()) {
-                reduce { state.copy(status = UiStatus.Success, stockList = data + searchData) }
+                reduce { state.copy(status = UiStatus.Success, stockList = data) }//TODO: No refresca el estado de la pagina!!!!
             } else {
                 reduce { state.copy(status = UiStatus.Failed(), stockList = listOf()) }
             }

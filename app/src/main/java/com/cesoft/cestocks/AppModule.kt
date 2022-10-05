@@ -12,12 +12,12 @@ val appModule = module {
         InitViewModel(get())
     }
     viewModel {
-        StockListViewModel(get(), get())
+        StockListViewModel(get())
     }
     viewModel {
         StockDetailViewModel(get(), get())
     }
     viewModel {
-        AddStockViewModel(get())
+        AddStockViewModel(get(), get())
     }
 }

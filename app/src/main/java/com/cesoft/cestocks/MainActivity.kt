@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cesoft.cestocks.ui.components.pages.addstock.AddStockPage
+import com.cesoft.cestocks.ui.components.pages.addstock.AddStockSideEffect
 import com.cesoft.cestocks.ui.components.pages.addstock.AddStockViewModel
 import com.cesoft.cestocks.ui.components.pages.init.InitPage
 import com.cesoft.cestocks.ui.components.pages.init.InitSideEffect
@@ -49,10 +50,10 @@ class MainActivity : ComponentActivity() {
                 Box(modifier = Modifier.fillMaxSize()) {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = Screen.Init.route) {
-                        addInit(navController = navController)
-                        addStockList(navController = navController)
-                        addStockDetail(navController = navController)
-                        addAddStock(navController = navController)
+                        initScreen(navController = navController)
+                        stockListScreen(navController = navController)
+                        stockDetailScreen(navController = navController)
+                        addStockScreen(navController = navController)
                     }
                 }
             }
@@ -77,7 +78,7 @@ inline fun <reified T : ViewModel> getComposeViewModel(
     return KoinJavaComponent.getKoin().getViewModel(qualifier, { viewModelOwner }, parameters)
 }
 // TODO: Splash
-private fun NavGraphBuilder.addInit(navController: NavController) {
+private fun NavGraphBuilder.initScreen(navController: NavController) {
     composable(route = Screen.Init.route) {
         val viewModel = getComposeViewModel<InitViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
@@ -103,10 +104,11 @@ private fun NavGraphBuilder.addInit(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.addStockList(navController: NavController) {
+private fun NavGraphBuilder.stockListScreen(navController: NavController) {
     composable(route = Screen.StockList.route) {
         val viewModel = getComposeViewModel<StockListViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
+        viewModel.refresh()
 
         LaunchedEffect(viewModel) {
             viewModel.container.sideEffectFlow.collect { effect ->
@@ -124,16 +126,16 @@ private fun NavGraphBuilder.addStockList(navController: NavController) {
                 }
             }
         }
-
         StockListPage(
             state = state,
             onStockClick = { viewModel.onStockClick(it) },
-            onAddStock = { viewModel.onAddStock() }
+            onAddStock = { viewModel.onAddStock() },
+            onRefresh = { viewModel.refresh() }
         )
     }
 }
 
-private fun NavGraphBuilder.addStockDetail(navController: NavController) {
+private fun NavGraphBuilder.stockDetailScreen(navController: NavController) {
     composable(route = Screen.StockDetail.route) {
         val viewModel = getComposeViewModel<StockDetailViewModel>(
             parameters = { parametersOf(Screen.StockDetail.getArgumentId(it)) }
@@ -142,7 +144,7 @@ private fun NavGraphBuilder.addStockDetail(navController: NavController) {
 
         LaunchedEffect(viewModel) {
             viewModel.container.sideEffectFlow.collect {
-                when (it) {
+                when(it) {
                     is StockDetailSideEffect.Back -> {
                         navController.popBackStack()
                     }
@@ -157,23 +159,25 @@ private fun NavGraphBuilder.addStockDetail(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.addAddStock(navController: NavController) {
+private fun NavGraphBuilder.addStockScreen(navController: NavController) {
     composable(route = Screen.AddStock.route) {
         val viewModel = getComposeViewModel<AddStockViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
 
         LaunchedEffect(viewModel) {
             viewModel.container.sideEffectFlow.collect { effect ->
-//                when(effect) {
-//
-//                }
+                when(effect) {
+                    is AddStockSideEffect.Back -> {
+                        navController.popBackStack()
+                    }
+                }
             }
         }
 
         AddStockPage(
             state = state,
-            onSearch = viewModel::onSearch
-            //onSearch = { value, market -> viewModel.onSearch(value, market) }
+            onSearch = viewModel::onSearch,
+            onAddStock = viewModel::onAddStock
         )
     }
 }

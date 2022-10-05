@@ -11,7 +11,7 @@ import java.util.*
 class GetStockHistoryUseCase(
     private val repository: RepositoryContract
 ) {
-    suspend operator fun invoke(id: Int): StockHistory? {
+    suspend operator fun invoke(id: Long): StockHistory? {
 
         delay(1000)
 

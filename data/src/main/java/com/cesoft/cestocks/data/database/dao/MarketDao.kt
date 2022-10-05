@@ -3,6 +3,7 @@ package com.cesoft.cestocks.data.database.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.Query
 import androidx.room.Update
 import com.cesoft.cestocks.data.database.entities.MarketEntity
@@ -10,8 +11,8 @@ import com.cesoft.cestocks.data.database.entities.MarketTableName
 
 @Dao
 interface MarketDao {
-    @Insert
-    suspend fun insert(market: MarketEntity)
+    @Insert(onConflict = IGNORE)
+    suspend fun insert(market: MarketEntity): Long
 
     @Insert
     suspend fun insertAll(markets: List<MarketEntity>)

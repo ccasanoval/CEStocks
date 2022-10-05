@@ -1,5 +1,6 @@
 package com.cesoft.cestocks.domain
 
+import com.cesoft.cestocks.domain.usecases.AddStockUseCase
 import com.cesoft.cestocks.domain.usecases.GetStockHistoryUseCase
 import com.cesoft.cestocks.domain.usecases.GetUserStockListUseCase
 import com.cesoft.cestocks.domain.usecases.SearchUseCase
@@ -14,5 +15,8 @@ val domainModule = module {
     }
     factory {
         SearchUseCase(get())
+    }
+    factory {
+        AddStockUseCase(get())
     }
 }

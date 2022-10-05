@@ -7,9 +7,9 @@ sealed class Screen(val route: String) {
     object StockList: Screen(route = "stockList")
     object AddStock: Screen(route = "addStock")
     object StockDetail: Screen(route = "stockDetail/{id}") {
-        fun createRoute(id: Int) = "stockDetail/$id"
-        fun getArgumentId(entry: NavBackStackEntry): Int {
-            return entry.arguments?.getString("id")?.toInt() ?: 0
+        fun createRoute(id: Long) = "stockDetail/$id"
+        fun getArgumentId(entry: NavBackStackEntry): Long {
+            return entry.arguments?.getString("id")?.toLong() ?: 0
         }
     }
 }

@@ -1,13 +1,10 @@
 package com.cesoft.cestocks.ui.components.pages.stocklist
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -15,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -36,9 +34,10 @@ import com.cesoft.cestocks.ui.components.dlg.ErrorMessage
 fun StockListPage(
     state: StockListState,
     onStockClick: (Stock) -> Unit,
-    onAddStock: () -> Unit
+    onAddStock: () -> Unit,
+    onRefresh: () -> Unit
 ) {
-    Window(onAddStock = onAddStock) {
+    Window(onAddStock=onAddStock, onRefresh=onRefresh) {
         when(state.status) {
             UiStatus.Loading -> {
                 LoadingCompo()
@@ -56,7 +55,8 @@ fun StockListPage(
 
 @Composable
 fun Window(
-    onAddStock: (() -> Unit),
+    onAddStock: () -> Unit,
+    onRefresh: () -> Unit,
     content: @Composable (padding: PaddingValues) -> Unit
 ) {
     Scaffold(
@@ -72,7 +72,18 @@ fun Window(
                 Spacer(modifier = Modifier.weight(1f))
 
                 IconButton(
-                    modifier = Modifier.size(64.dp).padding(end = 8.dp),
+                    modifier = Modifier.padding(end = 8.dp),
+                    onClick = onRefresh
+                ) {
+                    Icon(
+                        Icons.Default.Refresh,
+                        stringResource(R.string.refresh),
+                        tint = MaterialTheme.colors.secondary
+                    )
+                }
+
+                IconButton(
+                    modifier = Modifier.padding(end = 8.dp),
                     onClick = onAddStock
                 ) {
                     Icon(
@@ -134,5 +145,5 @@ private fun StockListPage_Preview() {
         Stock(0, "Valor A", "TCKA", Market(0, "MarketZ", "MKZ", "€"))
     )
     val state = StockListState(status = UiStatus.Success, stockList = stockList)
-    StockListPage(state, {}, {})
+    StockListPage(state, {}, {}, {})
 }
