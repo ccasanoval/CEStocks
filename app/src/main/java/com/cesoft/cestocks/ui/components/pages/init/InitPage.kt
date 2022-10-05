@@ -9,22 +9,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.cesoft.cestocks.ui.common.UiStatus
-import com.cesoft.cestocks.ui.components.dlg.DownloadRetryMessage
-import com.cesoft.cestocks.ui.components.dlg.DownloadingMessage
+import com.cesoft.cestocks.ui.components.dlg.Splash
+
 
 @Composable
-fun InitPage(
-    state: InitState,
-    onRetry: () -> Unit
-) {
+fun InitPage() {
     Scaffold {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
-            DownloadingMessage(
+            Splash(
                 modifier = Modifier
                     .wrapContentSize()
                     .align(Alignment.Center)
@@ -56,5 +52,5 @@ fun InitPage(
 @Preview(group = "Test")
 @Composable
 private fun InitPage_Preview() {
-    InitPage(InitState(UiStatus.Success)) {}
+    InitPage()//(InitState(UiStatus.Success)) {}
 }

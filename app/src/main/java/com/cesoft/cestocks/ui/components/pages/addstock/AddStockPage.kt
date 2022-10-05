@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,7 +44,7 @@ import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.ui.common.UiStatus
 import com.cesoft.cestocks.ui.common.fullTicket
 import com.cesoft.cestocks.ui.components.dlg.DownloadRetryMessage
-import com.cesoft.cestocks.ui.components.dlg.DownloadingMessage
+import com.cesoft.cestocks.ui.components.dlg.LoadingIndicator
 
 @Composable
 fun AddStockPage(
@@ -54,8 +55,9 @@ fun AddStockPage(
     Window(onSearch) {
         when(state.status) {
             UiStatus.Loading -> {
-                DownloadingMessage(
-                    modifier = Modifier.wrapContentSize()
+                LoadingIndicator(
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
             is UiStatus.Failed -> {

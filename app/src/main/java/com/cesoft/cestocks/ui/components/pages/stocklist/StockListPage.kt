@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -22,13 +23,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
 import com.cesoft.cestocks.R
 import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.ui.common.UiStatus
 import com.cesoft.cestocks.ui.common.fullTicket
-import com.cesoft.cestocks.ui.components.dlg.DownloadingMessage
+import com.cesoft.cestocks.ui.components.OnLifecycleEvent
 import com.cesoft.cestocks.ui.components.dlg.ErrorMessage
+import com.cesoft.cestocks.ui.components.dlg.LoadingIndicator
 
 @Composable
 fun StockListPage(
@@ -37,6 +40,10 @@ fun StockListPage(
     onAddStock: () -> Unit,
     onRefresh: () -> Unit
 ) {
+    OnLifecycleEvent { _, event ->
+        if(event == Lifecycle.Event.ON_START) onRefresh()
+    }
+
     Window(onAddStock=onAddStock, onRefresh=onRefresh) {
         when(state.status) {
             UiStatus.Loading -> {
@@ -101,7 +108,9 @@ fun Window(
 
 @Composable
 fun LoadingCompo() {
-    DownloadingMessage()
+    LoadingIndicator(
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier.fillMaxSize())
 }
 
 @Composable

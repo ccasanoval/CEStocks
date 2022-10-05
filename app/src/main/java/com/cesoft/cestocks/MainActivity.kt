@@ -81,7 +81,7 @@ inline fun <reified T : ViewModel> getComposeViewModel(
 private fun NavGraphBuilder.initScreen(navController: NavController) {
     composable(route = Screen.Init.route) {
         val viewModel = getComposeViewModel<InitViewModel>()
-        val state by viewModel.container.stateFlow.collectAsState()
+        //val state by viewModel.container.stateFlow.collectAsState()
 
         LaunchedEffect(viewModel) {
             viewModel.container.sideEffectFlow.collect {
@@ -97,10 +97,7 @@ private fun NavGraphBuilder.initScreen(navController: NavController) {
             }
         }
 
-        InitPage(
-            state = state,
-            onRetry = { viewModel.retry() }
-        )
+        InitPage()
     }
 }
 
@@ -108,7 +105,8 @@ private fun NavGraphBuilder.stockListScreen(navController: NavController) {
     composable(route = Screen.StockList.route) {
         val viewModel = getComposeViewModel<StockListViewModel>()
         val state by viewModel.container.stateFlow.collectAsState()
-        viewModel.refresh()
+
+        //viewModel.refresh()//TODO Must be other way
 
         LaunchedEffect(viewModel) {
             viewModel.container.sideEffectFlow.collect { effect ->

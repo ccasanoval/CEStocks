@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.cesoft.cestocks.R
 
 @Composable
-fun DownloadingMessage(modifier: Modifier = Modifier) {//TODO: Rename
+fun Splash(modifier: Modifier = Modifier) {//TODO: Rename
     Column(modifier = modifier) {
         val image: Painter = painterResource(id = R.drawable.splash)
         Image(
@@ -47,5 +47,5 @@ fun DownloadingMessage(modifier: Modifier = Modifier) {//TODO: Rename
 @Preview(group="Test")
 @Composable
 private fun DownloadingMessage_Preview() {
-    DownloadingMessage(modifier = Modifier.wrapContentSize(Alignment.Center))
+    Splash(modifier = Modifier.wrapContentSize(Alignment.Center))
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.usecases.GetUserStockListUseCase
 import com.cesoft.cestocks.ui.common.UiStatus
+import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -38,9 +39,10 @@ class StockListViewModel(
     private fun fetchData() {
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
+            delay(200)
             val data = getUserStockListUseCase()
             if (data.isNotEmpty()) {
-                reduce { state.copy(status = UiStatus.Success, stockList = data) }//TODO: No refresca el estado de la pagina!!!!
+                reduce { state.copy(status = UiStatus.Success, stockList = data) }
             } else {
                 reduce { state.copy(status = UiStatus.Failed(), stockList = listOf()) }
             }
