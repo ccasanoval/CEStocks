@@ -11,8 +11,10 @@ import java.util.*
 class GetStockHistoryUseCase(
     private val repository: RepositoryContract
 ) {
-    suspend operator fun invoke(id: Long): StockHistory? {
-
+    suspend operator fun invoke(id: Long, period: String): StockHistory? {
+        //val stock = repository.getUserStockById(id)
+        return repository.getStockHistory(id, period)
+        /*
         delay(1000)
 
         val now = Date()
@@ -31,6 +33,6 @@ class GetStockHistoryUseCase(
             stock = stock,
             dates = dates,
             prices = prices
-        )
+        )*/
     }
 }

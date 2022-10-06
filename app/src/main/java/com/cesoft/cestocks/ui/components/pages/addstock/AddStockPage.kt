@@ -98,7 +98,6 @@ fun Window(
                 )
                 IconButton(
                     modifier = Modifier
-                        //.size(48.dp)
                         .height(54.dp)
                         .background(MaterialTheme.colors.primary)
                         .padding(end = 8.dp),
@@ -125,10 +124,10 @@ fun Dropdown(onSelected: (String) -> Unit) {
     val items = stringArrayResource(R.array.market_types)
     val selectedIndex = remember { mutableStateOf(0) }
 
-    Row {
+    Row(modifier = Modifier.height(42.dp)) {
         Text(
             text = stringResource(R.string.market),
-            fontSize = 22.sp,
+            fontSize = 20.sp,
             color = MaterialTheme.colors.primary,
             modifier = Modifier.padding(4.dp))
         Box(modifier = Modifier.padding(4.dp)) {
@@ -137,7 +136,7 @@ fun Dropdown(onSelected: (String) -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable(onClick = { expanded.value = true }),
-                fontSize = 22.sp
+                fontSize = 20.sp
             )
             DropdownMenu(
                 expanded = expanded.value,

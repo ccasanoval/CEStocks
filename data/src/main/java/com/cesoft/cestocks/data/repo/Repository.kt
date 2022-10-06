@@ -5,9 +5,11 @@ import com.cesoft.cestocks.data.database.AppDatabase
 import com.cesoft.cestocks.data.database.entities.toDatabase
 import com.cesoft.cestocks.data.database.entities.toModel
 import com.cesoft.cestocks.data.network.NetworkDataSource
+import com.cesoft.cestocks.data.network.entities.QuoteEntity
 import com.cesoft.cestocks.data.network.entities.toModel
 import com.cesoft.cestocks.domain.RepositoryContract
 import com.cesoft.cestocks.domain.entities.Stock
+import com.cesoft.cestocks.domain.entities.StockHistory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -36,7 +38,27 @@ class Repository(private val database: AppDatabase): RepositoryContract {
         return stocks.toModel()
     }
 
+    //TODO: Devolver sealed class con Success / Fail ?
+    //1min, 5min, 15min, 30min, 1hour, 4hour
+    override suspend fun getStockHistory(id: Long, period: String): StockHistory? {
+        val stock = getUserStockById(id)
+        stock?.let {
+            val value: List<QuoteEntity> = NetworkDataSource.apiService.getHistoricalPrice(
+                symbol = it.ticker,
+                period = period,
+                apikey = BuildConfig.API_KEY
+            )
+            return StockHistory(stock, value.toModel())
+        }
+        return null
+    }
+
+
     // LOCAL ---------------------------------------------------------------------------------------
+
+    suspend fun getUserStockById(id: Long): Stock? {
+        return database.getStockDao().getById(id)?.toModel()
+    }
 
     override suspend fun getUserStocks(): List<Stock> {
         return database.getStockDao().getAll().toModel()

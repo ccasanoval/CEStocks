@@ -3,18 +3,18 @@
 
     <string name="search">Search</string>
     <string name="search_string">Enter search string</string>
-    <string name="add_stock">Add quote</string>
+    <string name="add_stock">Add stock</string>
     <string name="refresh">Refresh</string>
     <string name="retry">Retry</string>
     <string name="loading">Loading…</string>
     <string name="back">Back</string>
     <string name="deploy">Show</string>
 
-    <string name="stock_list_page">Quotes</string>
-    <string name="stock_detail_page">Quote values</string>
-    <string name="add_stock_page">Add quotes</string>
+    <string name="stock_list_page">Your stocks</string>
+    <string name="stock_detail_page">Stock details</string>
+    <string name="add_stock_page">Add stocks</string>
 
-    <string name="stock">Quote</string>
+    <string name="stock">Stock</string>
     <string name="market">Market: </string>
 
     <array name="market_types">
@@ -32,6 +32,15 @@
         <item>XETRA</item>
         <item>NSE</item>
         <item>LSE</item>
+    </array>
+
+    <array name="history_period">
+        <item value="1min">1min</item>
+        <item value="5min">5min</item>
+        <item value="15min">15min</item>
+        <item value="30min">30min</item>
+        <item value="1hour">1hour</item>
+        <item value="4hour">4hour</item>
     </array>
 
 </resources>

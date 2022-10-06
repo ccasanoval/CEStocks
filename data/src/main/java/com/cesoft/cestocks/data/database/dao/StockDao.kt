@@ -25,7 +25,7 @@ interface StockDao {
     suspend fun delete(stock: StockEntity)
 
     @Query("SELECT * FROM $StockTableName WHERE id=:id")
-    suspend fun getById(id: Int): StockFullEntity?
+    suspend fun getById(id: Long): StockFullEntity?
 
     @Query("SELECT * FROM $StockTableName")
     suspend fun getAll(): List<StockFullEntity>

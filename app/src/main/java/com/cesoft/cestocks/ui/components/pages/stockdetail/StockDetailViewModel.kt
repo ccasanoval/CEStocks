@@ -29,7 +29,7 @@ class StockDetailViewModel(
     private fun fetchData() {
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
-            val data = getStockHistoryUseCase(id=id)
+            val data = getStockHistoryUseCase(id=id, "1min")
             if (data != null) {
                 reduce { state.copy(status = UiStatus.Success, stockHistory = data) }
                 //postSideEffect(InitSideEffect.Completed)
