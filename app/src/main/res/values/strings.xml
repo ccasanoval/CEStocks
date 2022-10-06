@@ -2,16 +2,19 @@
     <string name="app_name">CEStocks</string>
 
     <string name="search">Search</string>
+    <string name="search_string">Enter search string</string>
     <string name="add_stock">Add quote</string>
     <string name="refresh">Refresh</string>
     <string name="retry">Retry</string>
     <string name="loading">Loading…</string>
     <string name="back">Back</string>
+    <string name="deploy">Show</string>
 
     <string name="stock_list_page">Quotes</string>
     <string name="stock_detail_page">Quote values</string>
     <string name="add_stock_page">Add quotes</string>
 
+    <string name="stock">Quote</string>
     <string name="market">Market: </string>
 
     <array name="market_types">

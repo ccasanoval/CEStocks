@@ -30,7 +30,8 @@ class Repository(private val database: AppDatabase): RepositoryContract {
         val stocks = NetworkDataSource.apiService.search(
             apikey = BuildConfig.API_KEY,
             query = value,
-            exchange = market
+            exchange = market,
+            limit = 50
         )
         return stocks.toModel()
     }

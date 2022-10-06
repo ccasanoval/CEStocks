@@ -11,20 +11,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -42,8 +40,9 @@ import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.ui.common.UiStatus
 import com.cesoft.cestocks.ui.common.fullTicket
-import com.cesoft.cestocks.ui.components.dlg.DownloadRetryMessage
-import com.cesoft.cestocks.ui.components.dlg.LoadingIndicator
+import com.cesoft.cestocks.ui.components.common.DownloadRetryMessage
+import com.cesoft.cestocks.ui.components.common.LoadingIndicator
+import com.cesoft.cestocks.ui.components.common.ToolbarWindow
 
 @Composable
 fun AddStockPage(
@@ -74,7 +73,6 @@ fun AddStockPage(
     }
 }
 
-//TODO: Abstract this......
 @Composable
 fun Window(
     onSearch: (String, String) -> Unit,
@@ -83,37 +81,25 @@ fun Window(
 ) {
     val searchText = remember { mutableStateOf("") }
     val searchMarket = remember { mutableStateOf("") }
-    Scaffold(
-         topBar = {
-            TopAppBar {
-                //Icon(painterResource(R.mipmap.ic_launcher), "", tint= Color.Unspecified)
-                IconButton(onClick = onBack) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back),
-                        tint = MaterialTheme.colors.secondary
-                    )
-                }
-                Text(
-                    text = stringResource(id = R.string.add_stock_page),
-                    fontSize = 24.sp
-                )
-                //Spacer(modifier = Modifier.weight(1f))
-            }
-        }
-    ) { padding ->
 
+    ToolbarWindow(
+        title = stringResource(R.string.add_stock_page),
+        onBack = onBack
+    ) { padding ->
         Column {
             Dropdown { searchMarket.value = it }
             Row {
                 TextField(
                     value = searchText.value,
                     onValueChange = { searchText.value = it },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    label = { Text(stringResource(R.string.stock)) },
+                    placeholder = { Text(stringResource(R.string.search_string)) }
                 )
                 IconButton(
                     modifier = Modifier
-                        .size(56.dp)
+                        //.size(48.dp)
+                        .height(54.dp)
                         .background(MaterialTheme.colors.primary)
                         .padding(end = 8.dp),
                     onClick = { onSearch(searchText.value, searchMarket.value) }
@@ -125,7 +111,6 @@ fun Window(
                     )
                 }
             }
-
             Row {
                 content(padding)
             }
@@ -133,17 +118,18 @@ fun Window(
     }
 }
 
-
+//TODO: Make it common
 @Composable
 fun Dropdown(onSelected: (String) -> Unit) {
     val expanded = remember { mutableStateOf(false) }
     val items = stringArrayResource(R.array.market_types)
     val selectedIndex = remember { mutableStateOf(0) }
 
-    Row(modifier = Modifier.height(56.dp)) {
+    Row {
         Text(
             text = stringResource(R.string.market),
             fontSize = 22.sp,
+            color = MaterialTheme.colors.primary,
             modifier = Modifier.padding(4.dp))
         Box(modifier = Modifier.padding(4.dp)) {
             Text(
@@ -168,33 +154,47 @@ fun Dropdown(onSelected: (String) -> Unit) {
                     }
                 }
             }
+            IconButton(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                onClick = { expanded.value = true }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowDropDown,
+                    contentDescription = stringResource(R.string.deploy),
+                    tint = MaterialTheme.colors.primary
+                )
+            }
         }
     }
 }
 
 @Composable
 fun SuccessCompo(data: List<Stock>, onAddStock: (Stock) -> Unit) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
         data.forEach { stock ->
-            Row {
-                IconButton(
-                    onClick = { onAddStock(stock) },
-                    modifier=Modifier.align(Alignment.Top)
-                ) {
-                    Icon(
-                        Icons.Default.Add,
-                        stringResource(R.string.add_stock),
-                        tint = MaterialTheme.colors.primary,
-                        modifier=Modifier.align(Alignment.Top)
+            item {
+                Row {
+                    IconButton(
+                        onClick = { onAddStock(stock) },
+                        modifier = Modifier.align(Alignment.Top)
+                    ) {
+                        Icon(
+                            Icons.Default.Add,
+                            stringResource(R.string.add_stock),
+                            tint = MaterialTheme.colors.primary,
+                            modifier = Modifier.align(Alignment.Top)
+                        )
+                    }
+                    Text(
+                        text = stock.fullTicket(),
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(24.dp))
+                    Text(
+                        text = stock.name,
+                        modifier = Modifier.align(Alignment.CenterVertically)
                     )
                 }
-                Text(
-                    text = stock.fullTicket(),
-                    modifier=Modifier.align(Alignment.CenterVertically))
-                Spacer(modifier = Modifier.width(24.dp))
-                Text(
-                    text = stock.name,
-                    modifier=Modifier.align(Alignment.CenterVertically))
             }
         }
     }

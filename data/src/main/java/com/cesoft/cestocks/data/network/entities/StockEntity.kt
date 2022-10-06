@@ -11,7 +11,7 @@ import com.cesoft.cestocks.domain.entities.Stock
 data class StockEntity(
     val symbol: String,
     val name: String,
-    val currency: String,
+    val currency: String?,
     val stockExchange: String,
     val exchangeShortName: String
 ) {
@@ -19,7 +19,7 @@ data class StockEntity(
         id=0,
         name=name,
         ticker=symbol,
-        market=Market(id=0, name=stockExchange, ticker=exchangeShortName, currency=currency))
+        market=Market(id=0, name=stockExchange, ticker=exchangeShortName, currency=currency ?: ""))
 }
 
 fun List<StockEntity>.toModel() = this.map { it.toModel() }

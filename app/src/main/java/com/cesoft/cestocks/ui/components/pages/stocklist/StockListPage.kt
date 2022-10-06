@@ -3,14 +3,13 @@ package com.cesoft.cestocks.ui.components.pages.stocklist
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
@@ -18,9 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,8 +28,9 @@ import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.ui.common.UiStatus
 import com.cesoft.cestocks.ui.common.fullTicket
 import com.cesoft.cestocks.ui.components.OnLifecycleEvent
-import com.cesoft.cestocks.ui.components.dlg.ErrorMessage
-import com.cesoft.cestocks.ui.components.dlg.LoadingIndicator
+import com.cesoft.cestocks.ui.components.common.ErrorMessage
+import com.cesoft.cestocks.ui.components.common.LoadingIndicator
+import com.cesoft.cestocks.ui.components.common.ToolbarWindow
 
 @Composable
 fun StockListPage(
@@ -75,16 +72,10 @@ fun Window(
     onRefresh: () -> Unit,
     content: @Composable (padding: PaddingValues) -> Unit
 ) {
-    Scaffold(
+    ToolbarWindow(
+        title = stringResource(R.string.stock_list_page),
         topBar = {
-            TopAppBar {
-                val image: Painter = painterResource(R.mipmap.ic_launcher)
-                Icon(image, "", tint= Color.Unspecified)
-                Text(
-                    text = stringResource(id = R.string.stock_list_page),
-                    modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                    fontSize = 24.sp
-                )
+            Row {
                 Spacer(modifier = Modifier.weight(1f))
 
                 IconButton(
@@ -109,10 +100,10 @@ fun Window(
                     )
                 }
             }
-        }
-    ) { padding ->
-        content(padding)
-    }
+        },
+        //secondBar = {},
+        contentBody = content
+    )
 }
 
 @Composable

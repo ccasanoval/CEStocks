@@ -1,4 +1,4 @@
-package com.cesoft.cestocks.ui.components.dlg
+package com.cesoft.cestocks.ui.components.common
 
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button

@@ -16,8 +16,8 @@ import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.entities.StockHistory
 import com.cesoft.cestocks.ui.common.UiStatus
 import com.cesoft.cestocks.ui.common.fullTicket
-import com.cesoft.cestocks.ui.components.dlg.ErrorMessage
-import com.cesoft.cestocks.ui.components.dlg.LoadingIndicator
+import com.cesoft.cestocks.ui.components.common.ErrorMessage
+import com.cesoft.cestocks.ui.components.common.LoadingIndicator
 import java.math.BigDecimal
 import java.util.*
 

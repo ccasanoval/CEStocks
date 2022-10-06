@@ -21,6 +21,7 @@ class AddStockViewModel(
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
             val data = searchUseCase(value, market)
+            //data.forEach { android.util.Log.e("VM", "onSearch---------- $it") }
             if(data.isNotEmpty()) {
                 reduce { state.copy(status = UiStatus.Success, data = data) }
             } else {

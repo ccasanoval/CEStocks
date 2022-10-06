@@ -29,7 +29,7 @@ interface ApiService {
         @Query("apikey") apikey: String,
         @Query("query") query: String,
         @Query("exchange") exchange: String,
-        @Query("limit") limit: String = "10"
+        @Query("limit") limit: Int = 10
     ): List<StockEntity>
 
     //https://financialmodelingprep.com/api/v3/quote/AAPL?apikey=YOUR_API_KEY

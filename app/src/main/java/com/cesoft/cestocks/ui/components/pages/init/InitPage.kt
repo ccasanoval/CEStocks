@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.cesoft.cestocks.ui.components.dlg.Splash
+import com.cesoft.cestocks.ui.components.common.Splash
 
 
 @Composable
