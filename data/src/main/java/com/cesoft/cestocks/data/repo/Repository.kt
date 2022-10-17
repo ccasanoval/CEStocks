@@ -56,7 +56,7 @@ class Repository(private val database: AppDatabase): RepositoryContract {
 
     // LOCAL ---------------------------------------------------------------------------------------
 
-    suspend fun getUserStockById(id: Long): Stock? {
+    override suspend fun getUserStockById(id: Long): Stock? {
         return database.getStockDao().getById(id)?.toModel()
     }
 

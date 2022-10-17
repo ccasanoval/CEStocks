@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
 import com.cesoft.cestocks.R
 import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Stock
@@ -40,13 +39,14 @@ fun StockListPage(
     onRefresh: () -> Unit
 ) {
     OnLifecycleEvent { _, event ->
-        if(event == Lifecycle.Event.ON_START) onRefresh()
+        //android.util.Log.e("AA", "--------- on lifecycle $event")
+        //if(event == Lifecycle.Event.ON_START) onRefresh()
     }
     DisposableEffect(null) {
         onRefresh()
-        android.util.Log.e("AA", "--------- onStart")
+        //android.util.Log.e("AA", "--------- onStart")
         onDispose {
-            android.util.Log.e("AA", "--------- onDispose")
+            //android.util.Log.e("AA", "--------- onDispose")
         }
     }
 

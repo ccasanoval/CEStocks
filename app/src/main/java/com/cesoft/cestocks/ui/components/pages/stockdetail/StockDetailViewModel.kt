@@ -10,6 +10,7 @@ import org.orbitmvi.orbit.viewmodel.container
 
 class StockDetailViewModel(
     private val id: Long,
+    //private val getStockUseCase: GetStockUseCase,
     private val getStockHistoryUseCase: GetStockHistoryUseCase
 ) : ContainerHost<StockDetailState, StockDetailSideEffect>, ViewModel() {
     override val container = container<StockDetailState, StockDetailSideEffect>(
@@ -29,10 +30,10 @@ class StockDetailViewModel(
     private fun fetchData() {
         intent {
             reduce { state.copy(status = UiStatus.Loading) }
-            val data = getStockHistoryUseCase(id=id, "1min")
+            //val stock = getStockUseCase(id=id)
+            val data = getStockHistoryUseCase(id=id, period="1min")
             if (data != null) {
                 reduce { state.copy(status = UiStatus.Success, stockHistory = data) }
-                //postSideEffect(InitSideEffect.Completed)
             } else {
                 reduce { state.copy(status = UiStatus.Failed(), stockHistory = null) }
             }

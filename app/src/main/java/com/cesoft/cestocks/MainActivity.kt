@@ -152,6 +152,7 @@ private fun NavGraphBuilder.stockDetailScreen(navController: NavController) {
 
         StockDetailPage(
             state = state,
+            onRefresh = { viewModel.retry() },
             onBack = { navController.popBackStack() }
         )
     }

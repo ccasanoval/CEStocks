@@ -1,24 +1,32 @@
 package com.cesoft.cestocks.ui.components.pages.stockdetail
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cesoft.cestocks.R
 import com.cesoft.cestocks.domain.entities.Market
 import com.cesoft.cestocks.domain.entities.Quote
 import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.entities.StockHistory
 import com.cesoft.cestocks.ui.common.UiStatus
-import com.cesoft.cestocks.ui.common.fullTicket
+import com.cesoft.cestocks.ui.common.fullName
 import com.cesoft.cestocks.ui.components.common.ErrorMessage
 import com.cesoft.cestocks.ui.components.common.LoadingIndicator
+import com.cesoft.cestocks.ui.components.common.ToolbarWindow
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
@@ -26,25 +34,68 @@ import java.util.*
 @Composable
 fun StockDetailPage(
     state: StockDetailState,
-    onBack: () -> Unit
+    onRefresh: () -> Unit,
+    onBack: () -> Unit,
 ) {
-    when (state.status) {
-        UiStatus.Loading -> {
-            LoadingIndicator(
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        is UiStatus.Failed -> {
-            ErrorMessage(message = state.status.message)
-        }
-        UiStatus.Success -> {
-            SuccessCompo(state.stockHistory!!)
-        }
-        else -> {
-
+    Window(
+        stock = state.stockHistory?.stock,
+        onRefresh=onRefresh,
+        onBack=onBack
+    ) {
+        when(state.status) {
+            UiStatus.Loading -> {
+                LoadingCompo()
+            }
+            is UiStatus.Failed -> {
+                FailedCompo(state.status.message)
+            }
+            UiStatus.Success -> {
+                SuccessCompo(state.stockHistory!!)
+            }
+            else -> {}
         }
     }
+}
+
+@Composable
+fun Window(
+    stock: Stock?,
+    onRefresh: () -> Unit,
+    onBack: () -> Unit,
+    content: @Composable (padding: PaddingValues) -> Unit
+) {
+    ToolbarWindow(
+        title = stock?.fullName() ?: stringResource(R.string.stock_detail_page),
+        onBack = onBack,
+        topBar = {
+            Row {
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(
+                    modifier = Modifier.padding(end = 8.dp),
+                    onClick = onRefresh
+                ) {
+                    Icon(
+                        Icons.Default.Refresh,
+                        stringResource(R.string.refresh),
+                        tint = MaterialTheme.colors.secondary
+                    )
+                }
+            }
+        },
+        contentBody = content
+    )
+}
+
+@Composable
+fun LoadingCompo() {
+    LoadingIndicator(
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier.fillMaxSize())
+}
+
+@Composable
+fun FailedCompo(message: String) {
+    ErrorMessage(message = message)
 }
 
 @Composable
@@ -54,16 +105,9 @@ fun SuccessCompo(stockHistory: StockHistory) {
     val value = stockHistory.value
 
     Column {
-        Text(text = "Detalles de ${stock.fullTicket()}")
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = "${stock.name} (${stock.fullTicket()})",
-            modifier = Modifier.size(24.dp)
-        )
         value.forEach { price ->
             Column {
-                Text(text = "----- ${price.close} ${stock.market.currency}")
+                Text(text = "${price.date} ----- ${price.close} ${stock.market.currency}")
             }
         }
     }
@@ -92,5 +136,5 @@ fun StockDetailPage_Preview() {
     }
     val stockHistory = StockHistory(stock, value)
     val state = StockDetailState(status=UiStatus.Success, stockHistory=stockHistory)
-    StockDetailPage(state) {}
+    StockDetailPage(state, {}, {})
 }

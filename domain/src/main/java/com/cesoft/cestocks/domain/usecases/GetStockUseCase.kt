@@ -8,11 +8,10 @@ import kotlinx.coroutines.delay
 import java.math.BigDecimal
 import java.util.*
 
-class GetStockHistoryUseCase(
+class GetStockUseCase(
     private val repository: RepositoryContract
 ) {
-    suspend operator fun invoke(id: Long, period: String): StockHistory? {
-        //val stock = repository.getUserStockById(id)
-        return repository.getStockHistory(id, period)
+    suspend operator fun invoke(id: Long): Stock? {
+        return repository.getUserStockById(id)
     }
 }
