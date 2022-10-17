@@ -8,5 +8,5 @@ interface RepositoryContract {
     suspend fun getUserStocks(): List<Stock>
     suspend fun getUserStockById(id: Long): Stock?
     suspend fun addUserStock(stock: Stock): Long
-    suspend fun getStockHistory(id: Long, period: String): StockHistory?
+    suspend fun getStockHistory(id: Long, period: String): Pair<StockHistory?, String?>
 }

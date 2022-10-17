@@ -95,7 +95,7 @@ fun LoadingCompo() {
 
 @Composable
 fun FailedCompo(message: String) {
-    ErrorMessage(message = message)
+    ErrorMessage(message = "Error: $message")
 }
 
 @Composable

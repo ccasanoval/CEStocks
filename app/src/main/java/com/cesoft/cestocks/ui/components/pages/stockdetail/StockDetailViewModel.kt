@@ -32,10 +32,10 @@ class StockDetailViewModel(
             reduce { state.copy(status = UiStatus.Loading) }
             //val stock = getStockUseCase(id=id)
             val data = getStockHistoryUseCase(id=id, period="1min")
-            if (data != null) {
-                reduce { state.copy(status = UiStatus.Success, stockHistory = data) }
+            if (data.first != null) {
+                reduce { state.copy(status = UiStatus.Success, stockHistory = data.first) }
             } else {
-                reduce { state.copy(status = UiStatus.Failed(), stockHistory = null) }
+                reduce { state.copy(status = UiStatus.Failed(message = data.second ?: "Unknown"), stockHistory = null) }
             }
         }
     }

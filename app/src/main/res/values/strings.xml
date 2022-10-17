@@ -18,7 +18,7 @@
     <string name="market">Market: </string>
 
     <array name="market_types">
-        <item>ETF</item>
+        <!-- item>ETF</item -->
         <item>MUTUAL_FUND</item>
         <item>COMMODITY</item>
         <item>INDEX</item>
@@ -28,10 +28,11 @@
         <item>AMEX</item>
         <item>NASDAQ</item>
         <item>NYSE</item>
-        <item>EURONEXT</item>
+        <!-- {"Error Message" : "Free plan is limited to US stocks only please visit our subscription page to upgrade your plan at https://financialmodelingprep.com/developer/docs/pricing"} -->
+        <!-- item>EURONEXT</item -->
         <item>XETRA</item>
-        <item>NSE</item>
-        <item>LSE</item>
+        <!-- item>NSE</item -->
+        <!--item>LSE</item -->
     </array>
 
     <array name="history_period">

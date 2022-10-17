@@ -1,17 +1,12 @@
 package com.cesoft.cestocks.domain.usecases
 
 import com.cesoft.cestocks.domain.RepositoryContract
-import com.cesoft.cestocks.domain.entities.Market
-import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.entities.StockHistory
-import kotlinx.coroutines.delay
-import java.math.BigDecimal
-import java.util.*
 
 class GetStockHistoryUseCase(
     private val repository: RepositoryContract
 ) {
-    suspend operator fun invoke(id: Long, period: String): StockHistory? {
+    suspend operator fun invoke(id: Long, period: String): Pair<StockHistory?, String?> {
         //val stock = repository.getUserStockById(id)
         return repository.getStockHistory(id, period)
     }

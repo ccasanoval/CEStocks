@@ -12,6 +12,8 @@ import com.cesoft.cestocks.domain.entities.Stock
 import com.cesoft.cestocks.domain.entities.StockHistory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import retrofit2.HttpException
 
 class Repository(private val database: AppDatabase): RepositoryContract {
 
@@ -40,17 +42,34 @@ class Repository(private val database: AppDatabase): RepositoryContract {
 
     //TODO: Devolver sealed class con Success / Fail ?
     //1min, 5min, 15min, 30min, 1hour, 4hour
-    override suspend fun getStockHistory(id: Long, period: String): StockHistory? {
+    override suspend fun getStockHistory(id: Long, period: String): Pair<StockHistory?, String?> {
         val stock = getUserStockById(id)
         stock?.let {
-            val value: List<QuoteEntity> = NetworkDataSource.apiService.getHistoricalPrice(
-                symbol = it.ticker,
-                period = period,
-                apikey = BuildConfig.API_KEY
-            )
-            return StockHistory(stock, value.toModel())
+            try {
+                val value: List<QuoteEntity> = NetworkDataSource.apiService.getHistoricalPrice(
+                    symbol = it.ticker,
+                    period = period,
+                    apikey = BuildConfig.API_KEY
+                )
+                return Pair(StockHistory(stock, value.toModel()), null)
+            }
+            catch(e: HttpException) {
+                try {
+                    val errorBody = e.response()?.errorBody()?.string()!!
+                    val objError = JSONObject(errorBody)
+                    android.util.Log.e(Repository::class.java.name, "getStockHistory: e: $objError")
+                    return Pair(null, objError.getString("Error Message"))
+                } catch(ex: Exception) {
+                    android.util.Log.e(Repository::class.java.name, "getStockHistory: ex: $ex")
+                }
+                return Pair(null, e.toString())
+            }
+            catch(e: Exception) {
+                android.util.Log.e(Repository::class.java.name, "getStockHistory: e: $e")
+                return Pair(null, e.toString())
+            }
         }
-        return null
+        return Pair(null, "Stock is null")
     }
 
 
